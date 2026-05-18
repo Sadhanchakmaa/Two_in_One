@@ -5,8 +5,11 @@ import re
 from telegram import ReplyKeyboardMarkup, KeyboardButton
 
 # ==================== টোকেন ====================
-TOKEN = os.environ.get("BOT_TOKEN", "8998576452:AAGGOkH4LfgLkw-DpqvhqLTAhlbaGtQPyK4")
-
+TOKEN = os.environ.get("BOT_TOKEN")
+#TOKEN = os.getenv("BOT_TOKEN")
+if not BOT_TOKEN:
+    print("❌ BOT_TOKEN not found in environment variables!")
+    sys.exit(1)
 # ==================== পাথ ডিটেক্ট ====================
 def get_base_dir():
     if 'com.termux' in os.environ.get('PREFIX', '') or os.path.exists('/sdcard'):
