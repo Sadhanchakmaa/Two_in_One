@@ -8,7 +8,7 @@ from telegram import ReplyKeyboardMarkup, KeyboardButton
 # ==================== টোকেন ====================
 TOKEN = os.environ.get("BOT_TOKEN")
 #TOKEN = os.getenv("BOT_TOKEN")
-if not BOT_TOKEN:
+if not TOKEN:
     print("❌ BOT_TOKEN not found in environment variables!")
     sys.exit(1)
 # ==================== পাথ ডিটেক্ট ====================
