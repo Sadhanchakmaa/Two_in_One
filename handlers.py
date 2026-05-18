@@ -126,10 +126,11 @@ def read_file_content(file_path, file_ext):
 
 
 async def handle_menu(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data.clear()  # 👈 এই লাইন যোগ করুন (একদম প্রথমে)
+    
     text = update.message.text
     
     if text == "BACK":
-        context.user_data.clear()
         await update.message.reply_text(
             f'<tg-emoji emoji-id="{CUSTOM_EMOJI["🔙"]}">🔙</tg-emoji> <b>Returning to Main Menu</b>',
             parse_mode='HTML',
