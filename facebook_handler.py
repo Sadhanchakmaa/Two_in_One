@@ -674,6 +674,18 @@ async def fb_confirm_save(update: Update, context: ContextTypes.DEFAULT_TYPE):
         return FB_SELECTING_OPTION  # Facebook মেনুতেই থাকবে
 
 
+# প্রথমে ফাইলের শুরুতে (অন্যান্য async ফাংশনের জায়গায়) এই ফাংশনটি যোগ করুন:
+async def fb_start_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """Facebook কনভারসেশন চলাকালীন /start দিলে মেইন মেনু দেখাবে"""
+    context.user_data.clear()
+    await update.message.reply_text(
+        f'<tg-emoji emoji-id="{CUSTOM_EMOJI["🏠"]}">🏠</tg-emoji> <b>Back to Main Menu</b>',
+        parse_mode='HTML',
+        reply_markup=MAIN_MENU
+    )
+    return ConversationHandler.END
+
+# তারপর নিচের ফাংশনটি পরিবর্তন করুন:
 def facebook_conversation_handler():
     return ConversationHandler(
         entry_points=[MessageHandler(filters.Regex("^FACEBOOK COOKIES$"), fb_start)],
@@ -686,5 +698,8 @@ def facebook_conversation_handler():
             FB_WAITING_COOKIES: [MessageHandler(filters.TEXT & ~filters.COMMAND, fb_waiting_cookies)],
             FB_CONFIRM_SAVE: [MessageHandler(filters.TEXT & ~filters.COMMAND, fb_confirm_save)],
         },
-        fallbacks=[CommandHandler("cancel", cancel)],
+        fallbacks=[
+            CommandHandler("cancel", cancel),
+            CommandHandler("start", fb_start_command),  # এই লাইনটি যোগ করুন
+        ],
     )
